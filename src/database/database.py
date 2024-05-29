@@ -58,3 +58,12 @@ class Database:
                             raise exception
                 
         return print('Dados inseridos com sucesso')
+    
+    def get_data(self):
+        try:
+            with db_connection_handler as db:
+                sql = "SELECT * FROM clientes"
+                result = db.session.execute(sql)
+                return result.fetchall()
+        except Exception as exception:
+            raise exception
