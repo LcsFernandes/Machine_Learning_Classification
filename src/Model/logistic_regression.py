@@ -1,11 +1,10 @@
-﻿from src.tratamento.ETL import ETL
+﻿from src.scripts.etl import Etl 
 import pandas as pd
-from sklearn.model_selection import GridSearchCV, train_test_split
+from sklearn.model_selection import GridSearchCV, train_test_split, RandomizedSearchCV
 from sklearn.linear_model import LogisticRegression
-from sklearn.metrics import accuracy_score, classification_report, roc_curve, auc, roc_auc_score, confusion_matrix
+from sklearn.metrics import classification_report, roc_curve, auc, confusion_matrix
 from sklearn.decomposition import PCA
-from sklearn.compose import ColumnTransformer
-from sklearn.pipeline import Pipeline, make_pipeline
+from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler, OneHotEncoder
 from imblearn.over_sampling import SMOTE
 import matplotlib.pyplot as plt
@@ -14,63 +13,59 @@ import seaborn as sns
 class RegressaoLogistica:
     
     def regressao_logistica(self):
-        etl = ETL()
+        etl = Etl()
         df = etl.load_data()
-
+        df_ml = df[['emprego_atual', 'idade', 'situacao_civil', 'bairro', 'cidade', 'estado', 'cliente_especial']]
         if df is not None:
-            X = df.drop(columns = ['cliente_especial'])
-            y = df['cliente_especial']
 
-            cat_nominal = X.drop(columns = 'idade').columns
-        
+            X = df_ml.drop(columns = 'cliente_especial')
+            y = df_ml['cliente_especial']
+
+            one_hot_encoder = OneHotEncoder(handle_unknown = 'ignore')
+            X_enc = one_hot_encoder.fit_transform(X.drop(columns =['idade']))
+
+            smote_bal = SMOTE(random_state = 42)
+
+            X_bal, y_bal = smote_bal.fit_resample(X_enc, y)
 
 
-            cat_nominal_transformer = Pipeline(steps = [
-                ('one_hot_encoder', OneHotEncoder())
+            pipeline = Pipeline(steps = [
+                ('s_scale', StandardScaler(with_mean=False)),
+                ('pca', PCA()),
+                ('reg_log', LogisticRegression())
             ])
+            print('Ja fiz o pipeline')
 
-
-            preprocessor = ColumnTransformer(transformers=[
-                ('cat_nominal', cat_nominal_transformer, cat_nominal)
-            ])
-
-            pipe = make_pipeline(
-                preprocessor,
-                SMOTE(random_state = 42),
-                StandardScaler(with_mean=False),
-                PCA(svd_solver='arpack'),
-                LogisticRegression()
-                
-            )
-
-            X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.30, random_state = 42)
+            X_train, X_test, y_train, y_test = train_test_split(X_bal, y_bal, test_size = 0.30, random_state = 42)
 
             param_grid = {
-                    'classifier__penalty': ['l1', 'l2'],
-                    'classifier__C': [0.001, 0.01, 0.1, 1, 10, 100],
-                    'classifier__solver': ['liblinear', 'newton-cg', 'lbfgs', 'sag', 'saga'],
-                    'classifier__max_iter': [100, 500, 1000]
-                    }
+                    'reg_log__C': [0.1, 1, 10],
+                    'reg_log__solver': ['liblinear', 'saga'],
+                    'reg_log__max_iter': [500, 1000]
+                }
             
-            
-            grid_search = GridSearchCV(pipe, param_grid, cv=5, scoring='accuracy')
-            grid_search.fit(X, y)
+            grid_search = RandomizedSearchCV(pipeline, param_grid, n_iter=10, cv=2, scoring='accuracy', n_jobs = -1)
+            grid_search.fit(X_train, y_train)
 
             
             print("Melhores hiperparâmetros:", grid_search.best_params_)
             print("Acurácia:", grid_search.best_score_)
 
-            
+             
             best_model = grid_search.best_estimator_
 
             modelo = best_model.fit(X_train, y_train)
+            print('Ja fiz o modelo')
 
             modelo_score = modelo.score(X_train, y_train)
             print(modelo_score)
 
+            predict = modelo.predict(X_test)
+            report = classification_report(y_test, predict)
+            print("classification report", report)
+
             y_score = modelo.predict_proba(X_test)
             fpr, tpr, threshold = roc_curve(y_test, y_score[:, 1])
-
             fig = plt.figure(figsize = (6, 6))
             plt.plot([0, 1], [0, 1], 'k--')
             plt.plot(fpr, tpr, label = "Regressao Logistica")
@@ -93,11 +88,4 @@ class RegressaoLogistica:
             plt.title('Matriz de confusao')
             plt.show()
 
-            classification_report = classification_report(y_test, predict)
-            print("classification report ", classification_report)
-
-            
-
-            
-        
-        
+ 

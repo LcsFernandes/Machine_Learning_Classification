@@ -1,4 +1,5 @@
 ﻿from src.scripts.generate_data import GenerateData
+from src.Model.logistic_regression import RegressaoLogistica
 from src.database.database import Database
 from src.scripts.etl import Etl
 import pandas as pd
@@ -14,7 +15,8 @@ etl = Etl()
 #data = db.get_data()
 #df = pd.DataFrame(data)
 #print(df.head(1))
-pd.set_option('display.max_columns', None)
-df = etl.load_data()
-print(df.head())
-
+#pd.set_option('display.max_columns', None)
+#df = etl.load_data()
+#print(df.head())  
+reglog = RegressaoLogistica()
+reglog.regressao_logistica()

@@ -40,8 +40,7 @@ class ArvoreDecisao:
                 SMOTE(random_state = 42),
                 StandardScaler(with_mean=False),
                 PCA(svd_solver='arpack'),
-                DecisionTreeClassifier()
-                
+                DecisionTreeClassifier() 
             )
 
             X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.30, random_state = 42)

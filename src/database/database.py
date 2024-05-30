@@ -62,7 +62,7 @@ class Database:
     def get_data(self):
         try:
             with db_connection_handler as db:
-                sql = "SELECT * FROM clientes"
+                sql = text("SELECT * FROM clientes")
                 result = db.session.execute(sql)
                 return result.fetchall()
         except Exception as exception:
