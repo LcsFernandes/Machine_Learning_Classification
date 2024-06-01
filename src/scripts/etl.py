@@ -1,6 +1,7 @@
 ﻿from src.database.database import Database
 import pandas as pd
 import datetime
+import os
 
 class Etl:
     def __init__(self) -> None:
@@ -54,6 +55,13 @@ class Etl:
     def load_data(self):
         self.extract_data()
         self.transform_data()
+        
+        output_dir = 'data'
+        if not os.path.exists(output_dir):
+            os.makedirs(output_dir)
+        
+        output_file = os.path.join(output_dir, 'clientes.csv')
+        self.df.to_csv(output_file, index=False)
         
         return self.df[['id', 'cpf', 'nome_completo', 'idade', 'emprego_atual', 'data_nascimento', 'situacao_civil', 'rua', 'bairro', 'cidade',
                         'estado', 'CEP', 'cliente_especial']]
