@@ -1,5 +1,7 @@
 ﻿from src.scripts.generate_data import GenerateData
 from src.Model.logistic_regression import RegressaoLogistica
+from src.Model.arvore_decisao import ArvoreDecisao
+from src.Model.SVM import Svm
 from src.database.database import Database
 from src.scripts.etl import Etl
 import pandas as pd
@@ -18,5 +20,9 @@ etl = Etl()
 #pd.set_option('display.max_columns', None)
 #df = etl.load_data()
 #print(df.head())  
-reglog = RegressaoLogistica()
-reglog.regressao_logistica()
+#reglog = RegressaoLogistica()
+#reglog.regressao_logistica()
+#tree = ArvoreDecisao()
+#tree.arvore_decisao()
+svm = Svm()
+svm.svm()

@@ -1,6 +1,6 @@
 ﻿from src.scripts.etl import Etl 
 import pandas as pd
-from sklearn.model_selection import GridSearchCV, train_test_split, RandomizedSearchCV
+from sklearn.model_selection import GridSearchCV, train_test_split
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import classification_report, roc_curve, auc, confusion_matrix
 from sklearn.decomposition import PCA
@@ -34,7 +34,6 @@ class RegressaoLogistica:
                 ('pca', PCA()),
                 ('reg_log', LogisticRegression())
             ])
-            print('Ja fiz o pipeline')
 
             X_train, X_test, y_train, y_test = train_test_split(X_bal, y_bal, test_size = 0.30, random_state = 42)
 
@@ -44,7 +43,7 @@ class RegressaoLogistica:
                     'reg_log__max_iter': [500, 1000]
                 }
             
-            grid_search = RandomizedSearchCV(pipeline, param_grid, n_iter=10, cv=2, scoring='accuracy', n_jobs = -1)
+            grid_search = GridSearchCV(pipeline, param_grid, cv=2, scoring='accuracy')
             grid_search.fit(X_train, y_train)
 
             
@@ -55,9 +54,8 @@ class RegressaoLogistica:
             best_model = grid_search.best_estimator_
 
             modelo = best_model.fit(X_train, y_train)
-            print('Ja fiz o modelo')
 
-            modelo_score = modelo.score(X_train, y_train)
+            modelo_score = modelo.score(X_test, y_test)
             print(modelo_score)
 
             predict = modelo.predict(X_test)
@@ -77,10 +75,8 @@ class RegressaoLogistica:
             print('area sob a curva: ', auc(fpr, tpr))
             
             
-            predict = modelo.predict(X_test)
             conf_matrix = confusion_matrix(y_test, predict)
 
-            # Plote a matriz de confusão usando seaborn
             plt.figure(figsize=(8, 6))
             sns.heatmap(conf_matrix, annot=True, fmt="d", cmap="Greens")
             plt.xlabel('Preditos')
