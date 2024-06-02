@@ -10,8 +10,8 @@ from imblearn.over_sampling import SMOTE
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-class ArvoreDecisao:  
-    def arvore_decisao(self):
+class DecisionTree:  
+    def decision_tree(self):
         etl = Etl()
         df = etl.load_data()
         df_ml = df[['emprego_atual', 'idade', 'situacao_civil', 'bairro', 'cidade', 'estado', 'cliente_especial']]
@@ -36,11 +36,11 @@ class ArvoreDecisao:
             X_train, X_test, y_train, y_test = train_test_split(X_bal, y_bal, test_size = 0.30, random_state = 42)
            
             param_grid = {
-                        'tree__criterion': ['gini', 'entropy'],
-                        'tree__max_depth': [None, 10, 20, 30],
-                        'tree__min_samples_leaf': [1, 2, 4],
-                        'tree__min_samples_split': [2, 5, 10]
-                        }
+                'tree__criterion': ['gini'],  
+                'tree__max_depth': [None, 10],      
+                'tree__min_samples_leaf': [1, 2],  
+                'tree__min_samples_split': [2, 5]
+            }
 
             
             grid_search = GridSearchCV(pipeline, param_grid, cv=2, scoring='accuracy')

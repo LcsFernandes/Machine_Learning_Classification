@@ -51,20 +51,23 @@ class Etl:
             self.df['idade'] = self.df['data_nascimento'].apply(lambda x: hoje.year - x.year - ((hoje.month, hoje.day) < (x.month, x.day)))
 
         return self.df
-        
-    def load_data(self):
-        self.extract_data()
-        self.transform_data()
-        
+
+    def to_csv(self):
         output_dir = 'data'
         if not os.path.exists(output_dir):
             os.makedirs(output_dir)
         
         output_file = os.path.join(output_dir, 'clientes.csv')
-        self.df.to_csv(output_file, index=False)
+        self.df.to_csv(output_file, index = False)
+
+    def load_data(self):
+        self.extract_data()
+        self.transform_data()
         
         return self.df[['id', 'cpf', 'nome_completo', 'idade', 'emprego_atual', 'data_nascimento', 'situacao_civil', 'rua', 'bairro', 'cidade',
                         'estado', 'CEP', 'cliente_especial']]
+    
+
         
 
 

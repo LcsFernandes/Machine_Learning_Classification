@@ -35,12 +35,12 @@ class Svm:
             X_train, X_test, y_train, y_test = train_test_split(X_bal, y_bal, test_size = 0.30, random_state = 42)
             
             param_grid = {
-                'svm__C': [0.1, 1, 10, 100],
-                'svm__gamma': ['scale', 'auto'],
-                'svm__kernel': ['linear', 'rbf', 'poly', 'sigmoid']
+                'svm__C': [0.1, 1, 10],
+                'svm__gamma': ['scale'],
+                'svm__kernel': ['linear', 'rbf'] 
             }
            
-            grid_search = GridSearchCV(pipeline, param_grid, cv=5, scoring='accuracy')
+            grid_search = GridSearchCV(pipeline, param_grid, cv=2, scoring='accuracy')
             grid_search.fit(X_bal, y_bal)
 
            
