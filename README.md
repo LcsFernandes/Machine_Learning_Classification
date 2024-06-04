@@ -1,8 +1,19 @@
 # Machine_Learning_Classification
 
 ## Objetivo do Projeto
+Desenvolver um sistema preditivo, utilizando algoritmos de Machine Learning, para identificar e classificar clientes com alto potencial de fidelização e valor para a empresa, denominados "clientes especiais".
 
-O objetivo deste projeto é demonstrar o processo completo de manipulação de dados e modelagem preditiva usando algoritmos de Machine Learning. A aplicação cobre desde a geração e transformação de dados, até a implementação e avaliação de diferentes modelos preditivos. Este projeto serve como um exemplo prático para aplicação de algoritmos para lidar com classificação de variaveis binárias.
+### Metodologia:
+- Geração de Dados: Dados aleatórios foram gerados para simular um cenário real de classificação binária.
+- ETL: O processo de Extração, Transformação e Carregamento (ETL) foi realizado para preparar os dados para modelagem.
+- Modelagem: Três modelos de Machine Learning foram implementados e avaliados: Regressão Logística, Árvore de Decisão e Máquinas de Vetores de Suporte (SVM).
+- Avaliação dos modelos: Os modelos foram avaliados em termos de precisão, recall e F1-score.
+
+### Espera-se contribuir para:
+- Aumentar a fidelização e retenção de clientes especiais.
+- Otimizar campanhas de marketing e vendas direcionadas.
+- Aprimorar a tomada de decisões estratégicas relacionadas à gestão de clientes.
+- Promover uma melhor compreensão do comportamento e valor dos clientes para a empresa.
 
 ### Explicação da Arquitetura:
 
