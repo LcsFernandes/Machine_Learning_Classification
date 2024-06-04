@@ -48,9 +48,5 @@ Certifique-se de ter as seguintes dependências instaladas:
 
 # Conclusão
 
-Conclusão:
-Este projeto de Machine Learning abrangeu todo o ciclo de vida de um projeto de dados, desde a manipulação inicial dos dados até a aplicação de algoritmos preditivos e a análise dos resultados.
-
-Os modelos de Machine Learning alcançaram uma alta precisão nos conjuntos de dados testados, demonstrando a eficácia dos algoritmos escolhidos. Analisando os resultados obtidos, percebemos que a Árvore de Decisão se destacou como o modelo de melhor performance, atingindo uma acurácia de 99% na classificação binária.
-
+Este projeto de Machine Learning abrangeu todo o ciclo de vida de um projeto de dados, desde a manipulação inicial dos dados até a aplicação de algoritmos preditivos e a análise dos resultados. Os modelos de Machine Learning alcançaram uma alta precisão nos conjuntos de dados testados, demonstrando a eficácia dos algoritmos escolhidos. Analisando os resultados obtidos, percebemos que a Árvore de Decisão se destacou como o modelo de melhor performance, atingindo uma acurácia de 99% na classificação binária. 
 É importante ressaltar que a escolha do melhor modelo depende do contexto específico do problema. Apesar da Árvore de Decisão ter apresentado o melhor resultado nesse caso, é sempre recomendado avaliar diferentes algoritmos para selecionar a abordagem mais adequada para cada cenário.
